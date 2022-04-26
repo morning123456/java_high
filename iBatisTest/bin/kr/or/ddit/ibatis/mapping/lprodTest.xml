@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 이 문서는 iBatis에서 처리할 SQL문을 작성하는 문서입니다. -->
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+                 "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+ <sqlMap namespace="lprod">
+      
+      <!-- 이 문서에서도 <typeAlias>태그를 사용해서 alias를 설정할 수 있다. -->
+      
+      
+      <!-- 
+          이 부분에 처리할 SQL문에 맞는 태그를 사용해서 처리할 SQL문을 기술한다.
+          
+          사용할 수 있는 기본적인 태그들...
+          <select> 쿼리문... </select>
+          <insert> 쿼리문... </insert>
+          <update> 쿼리문... </update>
+          <delete> 쿼리문... </delete>
+          
+          ...
+          
+       -->
+       <!-- 
+          id속성 ==> 실행할 태그를 Java소스에서 호출할 때 사용되는 이름으로
+               <sqlMap>태그의 namespace속성값과 연결해서 사용한다.
+               (예 : "lprod.insertLprod" )
+          parameterClass속성 ==> SQL문에 사용할 데이터가 들어있는 객체를
+                                기술한다. (보통 VO클래스, Map객체, Java의 기본자료형이름 등이 사용된다.)
+                                (VO클래스 등을 기술할 때는 해당 클래스의 전체 이름을 모두 기술해야 한다.)     
+        -->
+        <!--  
+       <insert id="insertLprod" parameterClass="lprodVo">     아래 30번과 같음-->
+      
+        <insert id="insertLprod" parameterClass="kr.or.ddit.vo.LprodVO">
+          insert into lprod (lprod_id, lprod_gu, lprod_nm)
+          values (#lprod_id#, #lprod_gu#, #lprod_nm#)  <!-- Map이면 #에 키값 -->
+       </insert>
+       
+       <update id="updateLprod" parameterClass="lprodVo">
+          update lprod set lprod_id=#lprod_id#, lprod_nm=#lprod_nm# where lprod_gu=#lprod_gu#
+       </update>
+       
+       <!-- parameterClass에 설정되는 값이 단일값이면 SQL문에 이 값을 나타내는 변수의 이름은 사용자가 임의로 지정할 수 있다. -->
+       <delete id="deleteLprod" parameterClass="string">  <!--string 소문자 가능, 1가지만 쓸거니깐 string,변수명 1개명 #lprod_gu# 대신 아무렇게나 써도됨-->
+           delete from lprod where lprod_gu=#sss#
+       </delete>
+       
+       
+       <!-- resultClass속성 ==> select문에서 처리한 결과를 저장할 VO클래스나 Map객체 또는 java의 기본자료형 이름을 지정한다.
+         
+            select한 결과가 여러개이면 자동으로 List에 담아줄 수 있다.
+            그래서 결과가 여러개 일 경우에도 이 속성에는 1개의 레코드가 저장될 클래스나 자료형이름을 지정하면 된다. 
+        -->
+       
+       
+       <!-- pafameterClass와 resultClass에는 <typeAlias>에서 선언한 alias명을 사용할 수 있다. -->
+       
+       
+       <select id="getAllLprod" resultClass="lprodVo">  <!-- ?가 없다면 parameterClass 안써도 됨 -->
+          select * from lprod
+       </select>
+       
+       <select id="getLprod" parameterClass="string" resultClass="lprodVo">
+         select * from lprod where lprod_gu=#lprod_gu#
+       </select>
+ </sqlMap>                
